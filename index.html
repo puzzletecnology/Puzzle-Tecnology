@@ -30,6 +30,20 @@
             line-height: 1.6;
         }
 
+        /* --- Video de Fondo (Nuevo) --- */
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Asegura que el video cubra todo el fondo */
+            z-index: -2; /* Detrás del canvas de estrellas */
+            opacity: 0.1; /* Baja la opacidad para que no distraiga */
+            filter: grayscale(100%); /* Hace el video más sutil */
+        }
+
+
         #universe-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.4; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
@@ -125,6 +139,56 @@
             border-left: 2px solid var(--accent);
         }
 
+        /* --- Videos Explicativos (Nuevo) --- */
+        .video-section {
+            margin: 100px 0;
+            padding: 0 24px;
+            text-align: center;
+        }
+
+        .video-section h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .video-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .video-card .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            margin-bottom: 15px;
+        }
+
+        .video-card .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        /* Fin Videos Explicativos */
+
+
         /* --- Features Section --- */
         .features-grid {
             display: grid;
@@ -183,6 +247,7 @@
         @media (max-width: 768px) {
             .hero { grid-template-columns: 1fr; text-align: center; }
             h1 { font-size: 48px; }
+            .video-grid { grid-template-columns: 1fr; } /* Apila los videos en móviles */
         }
 
         .flash { animation: flash-anim 0.6s ease; }
@@ -190,6 +255,11 @@
     </style>
 </head>
 <body>
+
+    <video autoplay muted loop id="background-video">
+        <source src="background-tech-loop.mp4" type="video/mp4">
+        Tu navegador no soporta videos de fondo.
+    </video>
 
     <canvas id="universe-canvas"></canvas>
 
@@ -232,6 +302,41 @@
                 <img src="foto1.png" id="device-img" class="main-device" alt="Puzzle Prototipo">
             </div>
         </section>
+
+        <section class="video-section">
+            <span class="gradient-text" style="font-weight: 800; font-size: 1.5rem;">Descubre PuzzleOS</span>
+            <h2>La visión detrás de la revolución modular</h2>
+            <p style="color: #a1a1aa; max-width: 800px; margin: 0 auto 50px;">
+                Sumérgete en el universo de PuzzleOS y entiende cómo estamos reinventando la tecnología móvil desde cero.
+            </p>
+
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID_1?controls=0&modestbranding=1&rel=0" allowfullscreen></iframe>
+                    </div>
+                    <h3 style="font-size: 20px; margin-bottom: 10px; color: var(--fg);">¿Qué es PuzzleOS?</h3>
+                    <p style="color: #a1a1aa; font-size: 15px;">Una introducción rápida a nuestro sistema operativo y la filosofía modular.</p>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID_2?controls=0&modestbranding=1&rel=0" allowfullscreen></iframe>
+                    </div>
+                    <h3 style="font-size: 20px; margin-bottom: 10px; color: var(--fg);">Demostración en Vivo</h3>
+                    <p style="color: #a1a1aa; font-size: 15px;">Mira cómo se ensamblan y funcionan los módulos en un prototipo real.</p>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID_3?controls=0&modestbranding=1&rel=0" allowfullscreen></iframe>
+                    </div>
+                    <h3 style="font-size: 20px; margin-bottom: 10px; color: var(--fg);">Visión de Futuro</h3>
+                    <p style="color: #a1a1aa; font-size: 15px;">Descubre nuestro roadmap y cómo planeamos escalar la tecnología.</p>
+                </div>
+            </div>
+        </section>
+
 
         <section class="features-grid">
             <div class="feature-box">
