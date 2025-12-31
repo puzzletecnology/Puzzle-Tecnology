@@ -3,428 +3,266 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PuzzleOS | Redefiniendo el Hardware</title>
+    <title>PuzzleOS | El Futuro es Modular</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #050508;
-            --fg: #ffffff;
-            --accent: #00f2ff;
-            --secondary: #7000ff;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
+            --bg: #030305;
+            --fg: #f5f7fb;
+            --accent: #7c9cff;
+            --glass: rgba(255, 255, 255, 0.02);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        * { 
-            box-sizing: border-box; 
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); 
-        }
+        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         
         body {
-            margin: 0; 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg); 
-            color: var(--fg);
-            overflow-x: hidden; 
-            line-height: 1.6;
+            margin: 0; font-family: 'Inter', sans-serif;
+            background-color: var(--bg); color: var(--fg);
+            overflow-x: hidden; scroll-behavior: smooth;
         }
 
-        /* --- Video de Fondo (Nuevo) --- */
-        #background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Asegura que el video cubra todo el fondo */
-            z-index: -2; /* Detrás del canvas de estrellas */
-            opacity: 0.1; /* Baja la opacidad para que no distraiga */
-            filter: grayscale(100%); /* Hace el video más sutil */
+        #universe-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.6; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: 3px; }
+        .puzzle-icon { width: 28px; height: 28px; background: var(--accent); border-radius: 6px; box-shadow: 0 0 20px var(--accent); }
+
+        .manifesto-box {
+            margin: 40px 0 60px 0;
+            padding: 30px;
+            background: linear-gradient(90deg, rgba(124, 156, 255, 0.05) 0%, transparent 100%);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 24px 24px 0;
+            backdrop-filter: blur(10px);
         }
 
-
-        #universe-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.4; }
-
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-
-        /* --- Header --- */
-        nav { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 40px 0; 
-        }
-        .logo { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-            font-weight: 800; 
-            font-size: 1.2rem;
-            letter-spacing: -0.5px; 
-        }
-        .puzzle-icon { 
-            width: 32px; height: 32px; 
-            background: linear-gradient(135deg, var(--accent), var(--secondary));
-            border-radius: 8px; 
-            box-shadow: 0 0 25px rgba(0, 242, 255, 0.4); 
+        .glitch-text {
+            font-weight: 800; font-size: 12px; letter-spacing: 4px;
+            color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 15px;
         }
 
-        /* --- Hero Section --- */
+        .manifesto-box p {
+            font-size: clamp(16px, 2vw, 22px);
+            line-height: 1.6; color: #cbd5e1;
+            max-width: 900px; margin: 0;
+        }
+
         .hero { 
             display: grid; 
-            grid-template-columns: 1.2fr 0.8fr; 
-            gap: 60px; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 40px; 
             align-items: center; 
-            min-height: 85vh; 
-            padding: 40px 0;
+            min-height: 80vh; 
         }
-
-        h1 { 
-            font-size: clamp(40px, 6vw, 72px); 
-            line-height: 1.1; 
-            margin: 0 0 20px 0; 
-            font-weight: 800;
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, var(--accent), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* --- UI Panels --- */
-        .interface-panel {
-            background: var(--glass); 
-            border: 1px solid var(--border);
-            backdrop-filter: blur(30px); 
-            border-radius: 32px;
-            padding: 30px; 
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-        }
-
-        .module-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 15px; 
-            margin: 25px 0; 
-        }
-
-        .mod-card {
-            background: rgba(255,255,255,0.03); 
-            border: 1px solid var(--border);
-            padding: 20px 10px; 
-            border-radius: 20px; 
-            cursor: pointer; 
-            text-align: center;
-            text-decoration: none; 
-            color: inherit;
-        }
-
-        .mod-card:hover { 
-            background: rgba(255,255,255,0.08);
-            transform: translateY(-8px);
-            border-color: var(--accent);
-        }
-
-        .mod-card i { font-size: 24px; margin-bottom: 12px; color: var(--accent); }
-
-        #kernel-console {
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
-            border-radius: 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            color: #888;
-            border-left: 2px solid var(--accent);
-        }
-
-        /* --- Videos Explicativos (Nuevo) --- */
-        .video-section {
-            margin: 100px 0;
-            padding: 0 24px;
-            text-align: center;
-        }
-
-        .video-section h2 {
-            font-size: clamp(32px, 4vw, 48px);
-            margin-bottom: 20px;
-            font-weight: 800;
-        }
-
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .video-card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            overflow: hidden;
-            text-align: left;
-        }
-
-        .video-card .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: 16px;
-            margin-bottom: 15px;
-        }
-
-        .video-card .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        /* Fin Videos Explicativos */
-
-
-        /* --- Features Section --- */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 100px 0;
-        }
-
-        .feature-box {
-            padding: 40px;
-            background: var(--glass);
-            border-radius: 32px;
-            border: 1px solid var(--border);
-        }
-
-        .feature-box h3 { color: var(--accent); margin-top: 0; }
-
-        /* --- Visualizer --- */
-        .visualizer { position: relative; display: flex; justify-content: center; }
-        .main-device { 
-            width: 100%; 
-            max-width: 400px; 
-            z-index: 2;
-            filter: drop-shadow(0 20px 50px rgba(0,0,0,0.9));
-        }
-
-        .glow-circle {
-            position: absolute;
-            width: 300px; height: 300px;
-            background: var(--accent);
-            filter: blur(120px);
-            opacity: 0.2;
-            z-index: 1;
-        }
-
-        /* --- Footer/Contact --- */
-        .cta-section {
-            text-align: center;
-            padding: 100px 0;
-            background: radial-gradient(circle at center, rgba(112, 0, 255, 0.1) 0%, transparent 70%);
-        }
-
-        .btn-primary {
-            display: inline-block;
-            padding: 18px 40px;
-            background: var(--fg);
-            color: var(--bg);
-            text-decoration: none;
-            border-radius: 100px;
-            font-weight: 800;
-            margin-top: 30px;
-        }
-
-        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,255,255,0.2); }
 
         @media (max-width: 768px) {
             .hero { grid-template-columns: 1fr; text-align: center; }
-            h1 { font-size: 48px; }
-            .video-grid { grid-template-columns: 1fr; } /* Apila los videos en móviles */
+            .manifesto-box { padding: 20px; border-radius: 20px; }
+            .contact-grid { grid-template-columns: 1fr !important; }
         }
 
-        .flash { animation: flash-anim 0.6s ease; }
-        @keyframes flash-anim { 0% { filter: brightness(5) blur(10px); } 100% { filter: brightness(1) blur(0); } }
+        .visualizer {
+            position: relative;
+            background: radial-gradient(circle at center, rgba(124, 156, 255, 0.1) 0%, transparent 70%);
+            text-align: center;
+        }
+
+        .main-device {
+            width: 100%; 
+            max-width: 450px;
+            height: auto;
+            filter: drop-shadow(0 0 40px rgba(0,0,0,0.8));
+        }
+
+        .interface-panel {
+            background: var(--glass); border: 1px solid var(--border);
+            backdrop-filter: blur(20px); border-radius: 30px;
+            padding: 25px; margin-top: 20px;
+        }
+
+        .module-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+
+        .mod-card {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            padding: 15px 5px; border-radius: 15px; cursor: pointer; text-align: center;
+            text-decoration: none; color: inherit; display: block;
+        }
+
+        .mod-card h4 { font-size: 12px; margin: 5px 0 0 0; }
+        .mod-card:hover { 
+            border-color: var(--accent); 
+            background: rgba(124, 156, 255, 0.05); 
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px rgba(124, 156, 255, 0.2);
+        }
+
+        #kernel-console {
+            margin-top: 20px; font-family: monospace; font-size: 11px;
+            color: var(--accent); border-top: 1px solid var(--border); padding-top: 15px;
+            text-align: left;
+        }
+
+        .floating { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .flash { animation: flash-anim 0.5s ease; }
+        @keyframes flash-anim { 0% { filter: brightness(3); } 100% { filter: brightness(1); } }
+
+        /* Estilos específicos para contacto */
+        .contact-section { margin-top: 80px; text-align: center; padding-bottom: 60px; }
+        .contact-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 20px; 
+            margin-top: 30px; 
+        }
+
     </style>
 </head>
 <body>
-
-    <video autoplay muted loop id="background-video">
-        <source src="background-tech-loop.mp4" type="video/mp4">
-        Tu navegador no soporta videos de fondo.
-    </video>
 
     <canvas id="universe-canvas"></canvas>
 
     <div class="container">
         <nav>
             <div class="logo"><div class="puzzle-icon"></div> PUZZLE TECHNOLOGY</div>
-            <div style="font-size: 11px; letter-spacing: 2px; opacity: 0.5;">REVOLUTION v1.0</div>
+            <div style="font-size: 10px; opacity: 0.6;">SISTEMA OPERATIVO ADAPTATIVO v1.0</div>
         </nav>
+
+        <section class="manifesto-box">
+            <div class="manifesto-content">
+                <span class="glitch-text">La Esencia</span>
+                <p>PuzzleOS no es un producto terminado, es un ecosistema vivo. Es la transición a la <strong>tecnología de creación</strong>, donde el hardware deja de ser una caja cerrada.</p>
+            </div>
+        </section>
 
         <section class="hero">
             <div class="hero-text">
-                <span style="text-transform: uppercase; letter-spacing: 5px; font-size: 12px; color: var(--accent);">El fin de la obsolescencia</span>
-                <h1>Tecnología que <br><span class="gradient-text">Evoluciona.</span></h1>
-                <p style="font-size: 18px; color: #a1a1aa; max-width: 500px; margin-bottom: 40px;">
-                    No es un teléfono, es un ecosistema modular diseñado para durar décadas, no meses.
-                </p>
-                
+                <h1>Diseña tu <span style="color: var(--accent)">Universo.</span></h1>
                 <div class="interface-panel">
-                    <div style="font-size: 11px; font-weight: 800; margin-bottom: 20px; opacity: 0.6;">LABORATORIO DE CONFIGURACIÓN</div>
-                    <div class="module-grid">
-                        <div class="mod-card" onclick="install('foto1.png', 'KERNEL_ALPHA', '#00f2ff', 'Arquitectura modular detectada. Estabilidad 99.9%')">
+                    <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent);">Simulador de Ensamblaje</div>
+                    <div class="module-cards">
+                        <div class="mod-card" onclick="install('foto1.png', 'CORE_UNIT', '#7c9cff', 'Kernel optimizado para 18 slots magnéticos.')">
                             <i class="fas fa-microchip"></i>
-                            <div style="font-size: 12px; font-weight: bold;">Nucleo</div>
+                            <h4>Core</h4>
                         </div>
-                        <div class="mod-card" onclick="install('foto2.png', 'OPTICS_PRO', '#ff0055', 'Módulo Leica-M detectado. ISO expandido.')">
-                            <i class="fas fa-camera-retro"></i>
-                            <div style="font-size: 12px; font-weight: bold;">Cámara</div>
+                        <div class="mod-card" onclick="install('foto2.png', 'OPTICS_MOD', '#ff4757', 'Cámara desmontable detectada.')">
+                            <i class="fas fa-camera"></i>
+                            <h4>Cámara</h4>
                         </div>
-                        <div class="mod-card" onclick="install('foto3.jpg', 'BATTERY_GRID', '#7000ff', 'Células de grafeno activas. Carga 120W.')">
-                            <i class="fas fa-bolt"></i>
-                            <div style="font-size: 12px; font-weight: bold;">Energía</div>
+                        <div class="mod-card" onclick="install('foto3.jpg', 'HARDWARE_GRID', '#a55eea', 'Matriz completa activa.')">
+                            <i class="fas fa-th"></i>
+                            <h4>Slots</h4>
                         </div>
                     </div>
-                    <div id="kernel-console">> Sistema en espera. Seleccione módulo...</div>
+                    <div id="kernel-console">> Sistema listo. Esperando interacción...</div>
                 </div>
             </div>
 
             <div class="visualizer">
-                <div class="glow-circle"></div>
-                <img src="foto1.png" id="device-img" class="main-device" alt="Puzzle Prototipo">
+                <img src="foto1.png" id="device-img" class="main-device floating" alt="Puzzle Prototipo">
             </div>
         </section>
 
-        <section class="video-section">
-            <span class="gradient-text" style="font-weight: 800; font-size: 1.5rem;">Descubre PuzzleOS</span>
-            <h2>La visión detrás de la revolución modular</h2>
-            <p style="color: #a1a1aa; max-width: 800px; margin: 0 auto 50px;">
-                Sumérgete en el universo de PuzzleOS y entiende cómo estamos reinventando la tecnología móvil desde cero.
-            </p>
+        <!-- EXPLICACIÓN DEL PROYECTO -->
+<section class="manifesto-box">
+    <span class="glitch-text">¿Qué es Puzzle Technology?</span>
+    <p>
+        Puzzle Technology es una nueva forma de entender los dispositivos móviles.
+        En lugar de comprar un teléfono cerrado y desechable, tú construyes el tuyo
+        como un <strong>rompecabezas</strong>.
+        <br><br>
+        Cada parte —hardware y software— es un módulo independiente que puedes
+        cambiar, mejorar o reparar sin reemplazar todo el dispositivo.
+    </p>
+</section>
 
-            <div class="video-grid">
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID_1?controls=0&modestbranding=1&rel=0" allowfullscreen></iframe>
-                    </div>
-                    <h3 style="font-size: 20px; margin-bottom: 10px; color: var(--fg);">¿Qué es PuzzleOS?</h3>
-                    <p style="color: #a1a1aa; font-size: 15px;">Una introducción rápida a nuestro sistema operativo y la filosofía modular.</p>
-                </div>
+<section class="manifesto-box">
+    <span class="glitch-text">¿Cómo funciona?</span>
+    <p>
+        PuzzleOS es el sistema operativo que conecta todos los módulos.
+        Detecta automáticamente cada componente y se adapta automáticamente.
+        <br><br>
+        Si cambias la cámara, el sistema se optimiza.
+        Si cambias la batería, ajusta el consumo.
+        Si agregas nuevos módulos, el sistema evoluciona contigo.
+    </p>
+</section>
 
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID_2?controls=0&modestbranding=1&rel=0" allowfullscreen></iframe>
-                    </div>
-                    <h3 style="font-size: 20px; margin-bottom: 10px; color: var(--fg);">Demostración en Vivo</h3>
-                    <p style="color: #a1a1aa; font-size: 15px;">Mira cómo se ensamblan y funcionan los módulos en un prototipo real.</p>
-                </div>
-
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID_3?controls=0&modestbranding=1&rel=0" allowfullscreen></iframe>
-                    </div>
-                    <h3 style="font-size: 20px; margin-bottom: 10px; color: var(--fg);">Visión de Futuro</h3>
-                    <p style="color: #a1a1aa; font-size: 15px;">Descubre nuestro roadmap y cómo planeamos escalar la tecnología.</p>
-                </div>
-            </div>
-        </section>
+<section class="manifesto-box">
+    <span class="glitch-text">¿Por qué Puzzle?</span>
+    <p>
+        ✔ No cambias todo el teléfono, solo lo que necesitas.<br>
+        ✔ Menos basura electrónica, más vida útil.<br>
+        ✔ Tú decides cómo es tu dispositivo.<br>
+        ✔ Tecnología abierta, reparable y honesta.<br>
+        ✔ Evoluciona contigo, no contra ti.
+    </p>
+</section>
 
 
-        <section class="features-grid">
-            <div class="feature-box">
-                <h3>Hardware Honesto</h3>
-                <p>Repara cualquier componente en segundos. Sin pegamento, sin herramientas propietarias.</p>
-            </div>
-            <div class="feature-box">
-                <h3>PuzzleOS</h3>
-                <p>Un núcleo inteligente que reconoce el hardware al instante y optimiza el consumo.</p>
-            </div>
-            <div class="feature-box">
-                <h3>Zero Waste</h3>
-                <p>Reduce el impacto ambiental actualizando solo lo que necesitas. El futuro es verde.</p>
-            </div>
-        </section>
-
-        <section class="cta-section">
-            <span class="gradient-text" style="font-weight: 800; font-size: 1.5rem;">¿Listo para invertir?</span>
-            <h2>Únete a la nueva era de la movilidad</h2>
-            <a href="mailto:zztopcevallos@gmail.com" class="btn-primary">SOLICITAR DOSSIER TÉCNICO</a>
+        <section class="contact-section">
+            <span class="glitch-text">Contacto</span>
+            <h2 style="font-size: clamp(24px, 4vw, 36px); margin: 10px 0;">¿Quieres ser parte de la revolución?</h2>
+            <p style="color: #cbd5e1; max-width: 600px; margin: 0 auto;">Únete al desarrollo de PuzzleOS y ayúdanos a redefinir la tecnología móvil.</p>
             
-            <div class="module-grid" style="max-width: 600px; margin: 60px auto 0;">
-                <a href="https://github.com/puzzletecnology" class="mod-card"><i class="fab fa-github"></i><h4>Source</h4></a>
-                <a href="#" class="mod-card"><i class="fab fa-linkedin"></i><h4>Red</h4></a>
-                <a href="#" class="mod-card"><i class="fas fa-paper-plane"></i><h4>Telegram</h4></a>
+            <div class="contact-grid">
+               <a href="mailto:zztopcevallos@gmail.com" class="mod-card">
+    <i class="fas fa-envelope" style="font-size: 24px; color: var(--accent); margin-bottom: 10px;"></i>
+    <h4>Email</h4>
+    <p style="font-size: 11px; opacity: 0.7;">zztopcevallos@gmail.com</p>
+</a>
+
+                <a href="https://github.com/puzzletecnology" target="_blank" class="mod-card">
+                    <i class="fab fa-github" style="font-size: 24px; color: var(--accent); margin-bottom: 10px;"></i>
+                    <h4>GitHub</h4>
+                </a>
+                <a href="#" class="mod-card">
+                    <i class="fab fa-linkedin" style="font-size: 24px; color: var(--accent); margin-bottom: 10px;"></i>
+                    <h4>LinkedIn</h4>
+                </a>
             </div>
         </section>
     </div>
 
     <script>
-        // Animación de fondo optimizada
         const canvas = document.getElementById('universe-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
+        let speed = 0.4;
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
 
         class Star {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5;
-                this.speed = Math.random() * 0.5 + 0.1;
-            }
-            update() {
-                this.y -= this.speed;
-                if (this.y < 0) this.reset();
-            }
-            draw() {
-                ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.z = Math.random()*2; }
+            update() { this.y -= this.z * speed; if(this.y<0) this.y = canvas.height; }
+            draw() { ctx.fillStyle = "white"; ctx.beginPath(); ctx.arc(this.x, this.y, this.z, 0, Math.PI*2); ctx.fill(); }
         }
-
-        for(let i=0; i<80; i++) stars.push(new Star());
+        for(let i=0; i<100; i++) stars.push(new Star());
 
         function loop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0,0,canvas.width, canvas.height);
             stars.forEach(s => { s.update(); s.draw(); });
             requestAnimationFrame(loop);
         }
         loop();
 
-        // Función de simulación mejorada
         function install(url, name, color, logText) {
             const device = document.getElementById('device-img');
             const console = document.getElementById('kernel-console');
-            
-            device.style.transform = "scale(0.9) rotate(-5deg)";
             device.classList.remove('flash');
-            
+            void device.offsetWidth; 
+            device.classList.add('flash');
             setTimeout(() => {
                 device.src = url;
-                device.style.transform = "scale(1) rotate(0deg)";
-                device.classList.add('flash');
                 document.documentElement.style.setProperty('--accent', color);
-                console.innerHTML = `<span style="color:white">> LOADING:</span> ${name}<br><span style="color:${color}">> STATUS:</span> ${logText}`;
-            }, 200);
+                console.innerHTML = `> MÓDULO_SINCRO: ${name}<br>> ${logText}`;
+                speed = name === 'HARDWARE_GRID' ? 5 : 0.4;
+            }, 100);
         }
     </script>
 </body>
