@@ -144,15 +144,15 @@
                 <div class="interface-panel">
                     <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent);">Simulador de Ensamblaje</div>
                     <div class="module-cards">
-                        <div class="mod-card" onclick="install('foto1.png', 'CORE_UNIT', '#7c9cff', 'Kernel optimizado para 18 slots magnéticos.')">
+                        <div class="mod-card" onclick="install('video1.mp4', 'CORE_UNIT', '#7c9cff', 'Kernel optimizado para 18 slots magnéticos.')">
                             <i class="fas fa-microchip"></i>
                             <h4>Core</h4>
                         </div>
-                        <div class="mod-card" onclick="install('foto2.png', 'OPTICS_MOD', '#ff4757', 'Cámara desmontable detectada.')">
+                        <div class="mod-card" onclick="install('video2.mp4', 'OPTICS_MOD', '#ff4757', 'Cámara desmontable detectada.')">
                             <i class="fas fa-camera"></i>
                             <h4>Cámara</h4>
                         </div>
-                        <div class="mod-card" onclick="install('foto3.jpg', 'HARDWARE_GRID', '#a55eea', 'Matriz completa activa.')">
+                        <div class="mod-card" onclick="install('video1.mp4', 'HARDWARE_GRID', '#a55eea', 'Matriz completa activa.')">
                             <i class="fas fa-th"></i>
                             <h4>Slots</h4>
                         </div>
@@ -162,8 +162,19 @@
             </div>
 
             <div class="visualizer">
-                <img src="foto1.png" id="device-img" class="main-device floating" alt="Puzzle Prototipo">
-            </div>
+    <video
+        id="device-video"
+        class="main-device floating"
+        muted
+        autoplay
+        loop
+        playsinline
+        preload="auto"
+    >
+        <source src="video1.mp4" type="video/mp4">
+    </video>
+</div>
+
         </section>
 
         <!-- EXPLICACIÓN DEL PROYECTO -->
@@ -251,19 +262,35 @@
         }
         loop();
 
-        function install(url, name, color, logText) {
-            const device = document.getElementById('device-img');
-            const console = document.getElementById('kernel-console');
-            device.classList.remove('flash');
-            void device.offsetWidth; 
-            device.classList.add('flash');
-            setTimeout(() => {
-                device.src = url;
-                document.documentElement.style.setProperty('--accent', color);
-                console.innerHTML = `> MÓDULO_SINCRO: ${name}<br>> ${logText}`;
-                speed = name === 'HARDWARE_GRID' ? 5 : 0.4;
-            }, 100);
-        }
+       function install(videoUrl, name, color, logText) {
+    const video = document.getElementById('device-video');
+    const console = document.getElementById('kernel-console');
+
+    video.classList.remove('flash');
+    void video.offsetWidth;
+    video.classList.add('flash');
+
+    setTimeout(() => {
+        video.querySelector('source').src = videoUrl;
+        video.load();
+
+        video.muted = true;
+        video.currentTime = 0;
+        video.play().catch(() => {});
+
+        document.documentElement.style.setProperty('--accent', color);
+        console.innerHTML = `> MÓDULO_SINCRO: ${name}<br>> ${logText}`;
+        speed = name === 'HARDWARE_GRID' ? 5 : 0.4;
+    }, 100);
+}
+window.addEventListener('load', () => {
+    const video = document.getElementById('device-video');
+    if (video) {
+        video.muted = true;
+        video.play().catch(() => {});
+    }
+});
+
     </script>
 </body>
 </html>
