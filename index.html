@@ -144,6 +144,36 @@
     position: relative;
     z-index: 2;
 }
+/* ===== EFECTO ILUMINACIÓN · SIMULADOR ===== */
+
+.mod-card.active {
+    border-color: var(--accent);
+    background: rgba(124, 156, 255, 0.12);
+    box-shadow:
+        0 0 12px var(--accent),
+        0 0 30px rgba(124, 156, 255, 0.4);
+    transform: translateY(-4px) scale(1.03);
+    animation: energy-pulse 2s infinite;
+}
+
+/* Pulso de energía */
+@keyframes energy-pulse {
+    0% {
+        box-shadow:
+            0 0 10px var(--accent),
+            0 0 20px rgba(124, 156, 255, 0.3);
+    }
+    50% {
+        box-shadow:
+            0 0 25px var(--accent),
+            0 0 45px rgba(124, 156, 255, 0.6);
+    }
+    100% {
+        box-shadow:
+            0 0 10px var(--accent),
+            0 0 20px rgba(124, 156, 255, 0.3);
+    }
+}
 
     </style>
 </head>
@@ -310,10 +340,21 @@
     const video = document.getElementById('device-video');
     const console = document.getElementById('kernel-console');
 
+    /* 1️⃣ Apagar todos los botones */
+    document.querySelectorAll('.mod-card').forEach(card => {
+        card.classList.remove('active');
+    });
+
+    /* 2️⃣ Encender el botón pulsado */
+    const activeCard = event.currentTarget;
+    activeCard.classList.add('active');
+
+    /* 3️⃣ Flash visual del dispositivo */
     video.classList.remove('flash');
     void video.offsetWidth;
     video.classList.add('flash');
 
+    /* 4️⃣ Cambio de módulo */
     setTimeout(() => {
         video.querySelector('source').src = videoUrl;
         video.load();
@@ -327,6 +368,7 @@
         speed = name === 'HARDWARE_GRID' ? 5 : 0.4;
     }, 100);
 }
+
 window.addEventListener('load', () => {
     const video = document.getElementById('device-video');
     if (video) {
