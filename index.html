@@ -118,6 +118,32 @@
             gap: 20px; 
             margin-top: 30px; 
         }
+/* ===== LA ESENCIA · VIDEO DE FONDO ===== */
+
+.essence-video {
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
+}
+
+/* Video detrás del texto */
+.essence-bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    opacity: 0.35;
+}
+
+/* Texto por encima del video */
+.essence-video .manifesto-content {
+    position: relative;
+    z-index: 2;
+}
 
     </style>
 </head>
@@ -131,12 +157,30 @@
             <div style="font-size: 10px; opacity: 0.6;">SISTEMA OPERATIVO ADAPTATIVO v1.0</div>
         </nav>
 
-        <section class="manifesto-box">
-            <div class="manifesto-content">
-                <span class="glitch-text">La Esencia</span>
-                <p>PuzzleOS no es un producto terminado, es un ecosistema vivo. Es la transición a la <strong>tecnología de creación</strong>, donde el hardware deja de ser una caja cerrada.</p>
-            </div>
-        </section>
+        <section class="manifesto-box essence-video">
+
+    <video
+        class="essence-bg-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+    >
+        <source src="video4.mp4" type="video/mp4">
+    </video>
+
+    <div class="manifesto-content">
+        <span class="glitch-text">La Esencia</span>
+        <p>
+            PuzzleOS no es un producto terminado, es un ecosistema vivo.
+            Es la transición a la <strong>tecnología de creación</strong>,
+            donde el hardware deja de ser una caja cerrada.
+        </p>
+    </div>
+
+</section>
+
 
         <section class="hero">
             <div class="hero-text">
